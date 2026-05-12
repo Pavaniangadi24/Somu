@@ -25,24 +25,9 @@ pipeline {
             }
         }
 
-        stage('Login to DockerHub') {
+        stage('Check Docker Images') {
             steps {
-                withCredentials([usernamePassword(
-                credentialsId: 'dockerhub-password',
-                usernameVariable: 'USER',
-                passwordVariable: 'PASS')]) {
-
-                    bat '''
-                    docker logout
-                    docker login -u %USER% -p %PASS%
-                    '''
-                }
-            }
-        }
-
-        stage('Push Docker Image') {
-            steps {
-                bat 'docker push %IMAGE_NAME%:latest'
+                bat 'docker images'
             }
         }
     }
