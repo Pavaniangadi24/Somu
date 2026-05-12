@@ -2,7 +2,6 @@ pipeline {
     agent any
 
     environment {
-        DOCKERHUB_CREDENTIALS = 'dockerhub-token'
         IMAGE_NAME = 'pavani2405/new_docker_image'
     }
 
@@ -35,10 +34,7 @@ pipeline {
 
                     bat '''
                     docker logout
-                    echo %PASS%> token.txt
-                    set /p TOKEN=<token.txt
-                    docker login -u %USER% -p %TOKEN%
-                    del token.txt
+                    docker login -u %USER% -p %PASS%
                     '''
                 }
             }
