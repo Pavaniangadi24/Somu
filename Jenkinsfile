@@ -33,7 +33,13 @@ pipeline {
                 usernameVariable: 'USER',
                 passwordVariable: 'PASS')]) {
 
-                    bat 'echo %PASS% | docker login -u %USER% --password-stdin'
+                    bat '''
+                    docker logout
+                    echo %PASS%> token.txt
+                    set /p TOKEN=<token.txt
+                    docker login -u %USER% -p %TOKEN%
+                    del token.txt
+                    '''
                 }
             }
         }
